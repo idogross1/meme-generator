@@ -28,9 +28,39 @@ var gMeme = {
     { txt: 'I never eat falafel', size: 20, align: 'left', color: 'black' },
   ],
 };
+var gActiveLine = 0;
 
 function createMeme(imgId) {
   gMeme.selectedImgId = imgId;
   gMeme.selectedLineIdx = 0;
   gMeme.lines = [];
+}
+
+function updateLine(txt) {
+  if (!gMeme.lines.length) createNewLine(txt);
+  gMeme.lines[gActiveLine].txt = txt;
+  //   gMeme.lines[gActiveLine].x = getCoordX(txt);
+}
+
+function updateFontSize(diff) {
+  if (!gMeme.lines[gActiveLine].size && diff < 0) return;
+  gMeme.lines[gActiveLine].size += diff;
+  console.log(gMeme.lines[gActiveLine].size);
+}
+
+function createNewLine(txt) {
+  gMeme.lines.push({
+    txt,
+    size: 40,
+    align: 'center',
+    color: 'white',
+    font: 'Impact',
+    x: 200,
+    y: 40,
+  });
+}
+
+function getCoordX(txt) {
+  var textWidth = gCtx.measureText(txt).width;
+  return (gCanvas.width - textWidth) / 2;
 }

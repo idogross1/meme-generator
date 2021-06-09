@@ -25,7 +25,18 @@
         <div class="canvas-container">
           <canvas id="canvas" height="400" width="400"></canvas>
         </div>
-        <div class="tools-container"></div>
+        <div class="tools-container flex column align-center">
+          <input type="text" oninput="onTypingLine(this.value)" />
+          <div class="lines-tools">
+            <button class="move-lines">X</button>
+            <button class="add-line">+</button>
+            <button class="delete-line">X</button>
+          </div>
+          <div class="style-tools">
+            <button class="increase-size" onclick="onChangeSize(1)">+</button>
+            <button class="increase-size" onclick="onChangeSize(-1)">-</button>
+          </div>
+        </div>
       </div>
     </main>
     <script src="js/meme-service.js"></script>
