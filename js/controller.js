@@ -6,13 +6,18 @@ var gCtx;
 function init() {
   gElCanvas = document.getElementById('canvas');
   gCtx = canvas.getContext('2d');
-  //   renderText(gMeme.lines[0].txt);
-  renderMeme(gMeme.selectedImgId);
 }
 
-function renderMeme(memeId) {
+function onImage(imgId) {
+  document.querySelector('.images-gallery').classList.add('hide');
+  document.querySelector('.main-content').classList.remove('hide');
+  createMeme(imgId);
+  renderMeme();
+}
+
+function renderMeme() {
   var img = new Image();
-  img.src = `images/${memeId}.jpg`;
+  img.src = `images/${gMeme.selectedImgId}.jpg`;
   img.onload = () => {
     renderImage(img);
     renderText(gMeme.lines[0].txt);

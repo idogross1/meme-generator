@@ -28,3 +28,9 @@ var gMeme = {
     { txt: 'I never eat falafel', size: 20, align: 'left', color: 'black' },
   ],
 };
+
+function createMeme(imgId) {
+  gMeme.selectedImgId = imgId;
+  gMeme.selectedLineIdx = 0;
+  gMeme.lines = [];
+}
