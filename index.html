@@ -13,7 +13,7 @@
       <nav></nav>
     </header>
     <main>
-      <section class="images-gallery grid">
+      <section class="images-gallery grid hide">
         <img src="images/1.jpg" alt="image 1" onclick="onImage(1)" />
         <img src="images/2.jpg" alt="image 2" onclick="onImage(2)" />
         <img src="images/3.jpg" alt="image 3" onclick="onImage(3)" />
@@ -21,20 +21,22 @@
         <img src="images/5.jpg" alt="image 5" onclick="onImage(5)" />
         <img src="images/6.jpg" alt="image 6" onclick="onImage(6)" />
       </section>
-      <div class="main-content flex center hide">
-        <div class="canvas-container">
+      <div class="main-content flex center">
+        <div class="canvas-container" onclick="onCanvas(event)">
           <canvas id="canvas" height="400" width="400"></canvas>
         </div>
         <div class="tools-container flex column align-center">
           <input type="text" oninput="onTypingLine(this.value)" />
           <div class="lines-tools">
-            <button class="move-lines">X</button>
+            <button class="move-lines" onclick="onChangeFocus()">X</button>
             <button class="add-line">+</button>
             <button class="delete-line">X</button>
           </div>
           <div class="style-tools">
             <button class="increase-size" onclick="onChangeSize(1)">+</button>
             <button class="increase-size" onclick="onChangeSize(-1)">-</button>
+            <button class="move-up" onclick="onMoveLine(-1)">Up</button>
+            <button class="move-down" onclick="onMoveLine(1)">Down</button>
           </div>
         </div>
       </div>

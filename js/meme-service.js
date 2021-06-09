@@ -21,6 +21,7 @@ var gImages = [
   { id: 17, url: 'images/17.jpg', keywords: ['happy'] },
   { id: 18, url: 'images/18.jpg', keywords: ['happy'] },
 ];
+
 var gMeme = {
   selectedImgId: 5,
   selectedLineIdx: 0,
@@ -46,6 +47,11 @@ function updateFontSize(diff) {
   if (!gMeme.lines[gActiveLine].size && diff < 0) return;
   gMeme.lines[gActiveLine].size += diff;
   console.log(gMeme.lines[gActiveLine].size);
+}
+
+function updateLinePosition(diff) {
+  // check that line doesn't go out of canvas
+  gMeme.lines[gActiveLine].y += 5 * diff;
 }
 
 function createNewLine(txt) {

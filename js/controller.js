@@ -6,9 +6,10 @@ var gCtx;
 function init() {
   gCanvas = document.getElementById('canvas');
   gCtx = gCanvas.getContext('2d');
+  onImage(3);
 }
 
-function onImage(imgId) {
+function onImage(imgId = 3) {
   document.querySelector('.images-gallery').classList.add('hide');
   document.querySelector('.main-content').classList.remove('hide');
   createMeme(imgId);
@@ -21,7 +22,8 @@ function renderMeme() {
   img.onload = () => {
     renderImage(img);
     if (!gMeme.lines.length) return;
-    renderText(gMeme.lines[0].txt);
+    gMeme.lines.forEach((line, i) => renderText(line, i));
+    // renderText(gMeme.lines[0].txt); //TODO: render all lines forEach()
   };
 }
 
@@ -33,16 +35,18 @@ function renderImage(img) {
   gCtx.drawImage(img, 0, 0, w, h);
 }
 
-function renderText() {
+function renderText(line, idx) {
+  console.log('line', line);
+  console.log('idx', idx);
+  if (idx === gActiveLine) {
+    gCtx.strokeStyle = 'red';
+    gCtx.strokeRect(10, gMeme.lines[gActiveLine].y - 30, 380, 75);
+  }
   gCtx.lineWidth = 2;
-  gCtx.font = `${gMeme.lines[gActiveLine].size}px ${gMeme.lines[gActiveLine].font}`;
+  gCtx.font = `${line.size}px ${line.font}`;
   gCtx.textAlign = 'center';
   gCtx.textBaseline = 'middle';
-  gCtx.fillText(
-    gMeme.lines[gActiveLine].txt,
-    gMeme.lines[gActiveLine].x,
-    gMeme.lines[gActiveLine].y
-  );
+  gCtx.fillText(line.txt, line.x, line.y);
 }
 
 function onTypingLine(txt) {
@@ -55,6 +59,14 @@ function onChangeSize(diff) {
   renderMeme();
 }
 
+function onMoveLine(diff) {
+  updateLinePosition(diff);
+  renderMeme();
+}
+
+function onCanvas(ev) {
+  console.log(ev);
+}
 function deleteText() {
   console.log('test');
   gCtx.clearRect(0, 0, 100, 100);
