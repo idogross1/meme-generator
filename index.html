@@ -7,7 +7,19 @@
     <link rel="stylesheet" href="css/style.css" />
     <title>Document</title>
   </head>
-  <body>
+  <body onload="init()">
+    <header>
+      <div class="logo">Logo</div>
+      <nav></nav>
+    </header>
+    <main>
+      <div class="main-content flex center">
+        <div class="canvas-container">
+          <canvas id="canvas" height="400" width="400"></canvas>
+        </div>
+        <div class="tools-container"></div>
+      </div>
+    </main>
     <script src="js/controller.js"></script>
     <script src="js/meme-service.js"></script>
   </body>

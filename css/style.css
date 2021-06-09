@@ -1,0 +1,58 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0 auto;
+  padding: 0;
+  background-color: #cfcfcf;
+}
+
+/* Components */
+
+.main-content {
+  background-color: lightblue;
+  height: 500px;
+  margin: 0;
+  gap: 20px;
+}
+
+.canvas-container {
+  /* background-color: lightcoral; */
+  height: 400px;
+  width: 400px;
+}
+
+.tools-container {
+  background-color: lightcyan;
+  height: 400px;
+  width: 400px;
+}
+
+/* Helpers */
+
+/* Grid */
+
+.grid {
+  display: grid;
+}
+
+/* Flex */
+
+.flex {
+  display: flex;
+}
+
+.flex.justify-center {
+  justify-content: center;
+}
+
+.flex.align-center {
+  align-items: center;
+}
+
+.flex.center {
+  justify-content: center;
+  align-items: center;
+}
