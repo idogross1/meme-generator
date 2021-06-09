@@ -12,7 +12,7 @@ function init() {
 
 function renderMeme(memeId) {
   var img = new Image();
-  img.src = `../images/${memeId}.jpg`;
+  img.src = `images/${memeId}.jpg`;
   img.onload = () => {
     renderImage(img);
     renderText(gMeme.lines[0].txt);
