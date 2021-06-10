@@ -6,7 +6,9 @@ var gCtx;
 function init() {
   gCanvas = document.getElementById('canvas');
   gCtx = gCanvas.getContext('2d');
-  onImage(3);
+  //   onImage(3);
+  getMemes();
+  renderMemesGallery();
 }
 
 function onImage(imgId = 3) {
@@ -23,7 +25,6 @@ function renderMeme() {
     renderImage(img);
     if (!gMeme.lines.length) return;
     gMeme.lines.forEach((line, i) => renderText(line, i));
-    // renderText(gMeme.lines[0].txt); //TODO: render all lines forEach()
   };
 }
 
@@ -32,17 +33,26 @@ function renderImage(img) {
   var nw = img.naturalWidth;
   var nh = img.naturalHeight;
   var h = (w * nh) / nw;
+  resizeCanvas(w, h);
   gCtx.drawImage(img, 0, 0, w, h);
 }
 
+function resizeCanvas(w, h) {
+  gCanvas.width = w;
+  gCanvas.height = h;
+}
+
 function renderText(line, idx) {
-  console.log('line', line);
-  console.log('idx', idx);
   if (idx === gActiveLine) {
     gCtx.strokeStyle = 'red';
-    gCtx.strokeRect(10, gMeme.lines[gActiveLine].y - 30, 380, 75);
+    gCtx.strokeText(line.txt, line.x, line.y);
+  } else {
+    gCtx.strokeStyle = 'black';
+    gCtx.strokeText(line.txt, line.x, line.y);
   }
+
   gCtx.lineWidth = 2;
+  gCtx.fillStyle = 'white';
   gCtx.font = `${line.size}px ${line.font}`;
   gCtx.textAlign = 'center';
   gCtx.textBaseline = 'middle';
@@ -65,9 +75,54 @@ function onMoveLine(diff) {
 }
 
 function onCanvas(ev) {
-  console.log(ev);
+  var pos = { x: ev.offsetX, y: ev.offsetY };
+  console.log('position');
+  console.log(pos);
+  gMeme.lines.forEach((line) => {
+    console.log('x', line.x);
+    console.log('y', line.y);
+    // if(pos.x > 10 && pos.x<line.x&& pos.y< )
+  });
 }
-function deleteText() {
-  console.log('test');
-  gCtx.clearRect(0, 0, 100, 100);
+
+function onAddNewLine() {
+  document.querySelector('.line-input').value = '';
+  gActiveLine++;
+  createNewLine();
+  console.log(gMeme);
+  renderMeme();
+}
+
+function onChangeLine() {
+  changeActiveLine();
+  renderMeme();
+}
+
+function onSave() {
+  saveMeme();
+}
+
+function onDownload(elLink) {
+  downloadMeme(elLink);
+}
+
+function onMemes() {
+  // TODO: put memes gallery out of hide
+  document.querySelector('.memes-gallery').classList.remove('hide');
+  document.querySelector('.images-gallery').classList.add('hide');
+  renderMemesGallery();
+}
+
+function onGallery() {
+  document.querySelector('.images-gallery').classList.remove('hide');
+  document.querySelector('.memes-gallery').classList.add('hide');
+  document.querySelector('.main-content').classList.add('hide');
+}
+
+function renderMemesGallery() {
+  //   <img src="images/1.jpg" alt="image 1" onclick="onImage(1)" />
+  const markup = gSavedMemes.map((meme) => `<img src=${meme.url} />`).join('');
+  //   console.log(markup);
+  var elMemesGal = document.getElementById('memes-gallery');
+  elMemesGal.innerHTML = markup;
 }

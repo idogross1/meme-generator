@@ -21,15 +21,12 @@ var gImages = [
   { id: 17, url: 'images/17.jpg', keywords: ['happy'] },
   { id: 18, url: 'images/18.jpg', keywords: ['happy'] },
 ];
+const KEY = 'meme';
 
-var gMeme = {
-  selectedImgId: 5,
-  selectedLineIdx: 0,
-  lines: [
-    { txt: 'I never eat falafel', size: 20, align: 'left', color: 'black' },
-  ],
-};
+var gMeme = {};
 var gActiveLine = 0;
+var gId = 0;
+var gSavedMemes = [];
 
 function createMeme(imgId) {
   gMeme.selectedImgId = imgId;
@@ -38,6 +35,7 @@ function createMeme(imgId) {
 }
 
 function updateLine(txt) {
+  console.log();
   if (!gMeme.lines.length) createNewLine(txt);
   gMeme.lines[gActiveLine].txt = txt;
   //   gMeme.lines[gActiveLine].x = getCoordX(txt);
@@ -54,19 +52,49 @@ function updateLinePosition(diff) {
   gMeme.lines[gActiveLine].y += 5 * diff;
 }
 
-function createNewLine(txt) {
+function createNewLine(txt = '') {
   gMeme.lines.push({
     txt,
     size: 40,
     align: 'center',
     color: 'white',
     font: 'Impact',
-    x: 200,
-    y: 40,
+    x: gCanvas.width / 2,
+    y: getY(),
   });
 }
+function getY() {
+  if (!gMeme.lines.length) {
+    return 30;
+  }
+  if (gMeme.lines.length === 1) {
+    return gCanvas.height - 25;
+  }
+  return gCanvas.height / 2;
+}
 
-function getCoordX(txt) {
-  var textWidth = gCtx.measureText(txt).width;
-  return (gCanvas.width - textWidth) / 2;
+function changeActiveLine() {
+  //   if (gActiveLine === gMeme.lines.length - 1) return (gActiveLine = 0);
+  //   return gActiveLine++;
+  gActiveLine++;
+  gActiveLine = gActiveLine % gMeme.lines.length;
+}
+
+function saveMeme() {
+  const image = {
+    id: gId++,
+    url: gCanvas.toDataURL(),
+  };
+  gSavedMemes.push(image);
+  saveToLocalStorage(KEY, gSavedMemes);
+}
+
+function getMemes() {
+  gSavedMemes = loadFromStorage(KEY);
+}
+
+function downloadMeme(elLink) {
+  const data = gCanvas.toDataURL();
+  elLink.href = data;
+  elLink.download = 'meme';
 }
