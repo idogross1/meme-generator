@@ -2,17 +2,36 @@
 
 var gCanvas;
 var gCtx;
+var gMouseIsDown = false;
 
 function init() {
   gCanvas = document.getElementById('canvas');
   gCtx = gCanvas.getContext('2d');
   //   onImage(3);
+  renderAllImagesGallery();
   getMemes();
   renderMemesGallery();
 }
 
-function onImage(imgId = 3) {
+function renderAllImagesGallery() {
+  var images = getImages();
+  renderImagesGallery(images);
+}
+
+function renderImagesGallery(images) {
+  const markup = images
+    .map(
+      (image) =>
+        `<img src="${image.url}" alt="image ${image.id}" onclick="onImage(${image.id})" />`
+    )
+    .join('');
+  document.querySelector('.images-gallery').innerHTML = markup;
+  //   console.dir(document.querySelector('.images-gallery'));
+}
+
+function onImage(imgId) {
   document.querySelector('.images-gallery').classList.add('hide');
+  document.querySelector('.search-box').classList.add('hide');
   document.querySelector('.main-content').classList.remove('hide');
   createMeme(imgId);
   renderMeme();
@@ -43,6 +62,10 @@ function resizeCanvas(w, h) {
 }
 
 function renderText(line, idx) {
+  gCtx.lineWidth = 2;
+  gCtx.font = `${line.size}px ${line.font}`;
+  gCtx.textAlign = 'center';
+  gCtx.textBaseline = 'middle';
   if (idx === gActiveLine) {
     gCtx.strokeStyle = 'red';
     gCtx.strokeText(line.txt, line.x, line.y);
@@ -51,11 +74,7 @@ function renderText(line, idx) {
     gCtx.strokeText(line.txt, line.x, line.y);
   }
 
-  gCtx.lineWidth = 2;
   gCtx.fillStyle = 'white';
-  gCtx.font = `${line.size}px ${line.font}`;
-  gCtx.textAlign = 'center';
-  gCtx.textBaseline = 'middle';
   gCtx.fillText(line.txt, line.x, line.y);
 }
 
@@ -76,20 +95,26 @@ function onMoveLine(diff) {
 
 function onCanvas(ev) {
   var pos = { x: ev.offsetX, y: ev.offsetY };
-  console.log('position');
-  console.log(pos);
-  gMeme.lines.forEach((line) => {
-    console.log('x', line.x);
-    console.log('y', line.y);
-    // if(pos.x > 10 && pos.x<line.x&& pos.y< )
-  });
+  var lineIndex = gMeme.lines.findIndex(
+    (line) => pos.y > line.y - line.size / 2 && line.y + line.size / 2 > pos.y
+  );
+  updateActiveLine(lineIndex);
+  renderMeme();
+}
+
+function onCanvasDrag(ev) {
+  var pos = { x: ev.offsetX, y: ev.offsetY };
+  console.log(gCanvas);
+  var temp = document.querySelector('.canvas-container');
+  console.log(temp);
+  // .addEventListner('onmousemove', () => console.log('test'));
 }
 
 function onAddNewLine() {
+  if (!isLines()) return;
   document.querySelector('.line-input').value = '';
   gActiveLine++;
   createNewLine();
-  console.log(gMeme);
   renderMeme();
 }
 
@@ -99,6 +124,8 @@ function onChangeLine() {
 }
 
 function onSave() {
+  changeFocus();
+  renderMeme();
   saveMeme();
 }
 
@@ -106,16 +133,22 @@ function onDownload(elLink) {
   downloadMeme(elLink);
 }
 
+function onDelete() {
+  //   deleteLine();
+}
+
 function onMemes() {
   // TODO: put memes gallery out of hide
   document.querySelector('.memes-gallery').classList.remove('hide');
   document.querySelector('.images-gallery').classList.add('hide');
   document.querySelector('.main-content').classList.add('hide');
+  document.querySelector('.search-box').classList.add('hide');
   renderMemesGallery();
 }
 
 function onGallery() {
   document.querySelector('.images-gallery').classList.remove('hide');
+  document.querySelector('.search-box').classList.remove('hide');
   document.querySelector('.memes-gallery').classList.add('hide');
   document.querySelector('.main-content').classList.add('hide');
 }
@@ -126,4 +159,43 @@ function renderMemesGallery() {
   //   console.log(markup);
   var elMemesGal = document.getElementById('memes-gallery');
   elMemesGal.innerHTML = markup;
+}
+
+function handleMouseDown(event) {
+  const position = {
+    x: event.offsetX,
+    y: event.offsetY,
+  };
+
+  if (!checkIfLineWasSelected(position)) return;
+  document.getElementById('canvas').addEventListener('mousemove', dragText);
+}
+
+function checkIfLineWasSelected(pos) {
+  var lineIndex = gMeme.lines.findIndex(
+    (line) => pos.y > line.y - line.size / 2 && line.y + line.size / 2 > pos.y
+  );
+  if (lineIndex > -1) return true;
+  return false;
+}
+
+function dragText(event) {
+  const position = {
+    x: event.offsetX,
+    y: event.offsetY,
+  };
+  updateLinePosition(position);
+  renderMeme();
+}
+
+function handleMouseUp() {
+  document.getElementById('canvas').removeEventListener('mousemove', dragText);
+}
+
+function onSearch() {
+  var searchWord = document.querySelector('.search-input').value;
+  if (!searchWord) return;
+  var images = getImagesSearch(searchWord);
+  renderImagesGallery(images);
+  document.querySelector('.search-input').value = '';
 }
