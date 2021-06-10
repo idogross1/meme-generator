@@ -153,7 +153,7 @@
       </ul>
     </nav>
     <main>
-      <section class="images-gallery grid hide">
+      <section class="images-gallery grid">
         <img src="images/1.jpg" alt="image 1" onclick="onImage(1)" />
         <img src="images/2.jpg" alt="image 2" onclick="onImage(2)" />
         <img src="images/3.jpg" alt="image 3" onclick="onImage(3)" />
@@ -162,42 +162,50 @@
         <img src="images/6.jpg" alt="image 6" onclick="onImage(6)" />
       </section>
       <div class="main-content flex center hide">
-        <div class="canvas-container" onclick="onCanvas(event)">
+        <div class="canvas-container flex center" onclick="onCanvas(event)">
           <canvas id="canvas" height="400" width="400"></canvas>
         </div>
         <div class="tools-container flex column align-center">
           <input
             class="line-input"
             type="text"
+            placeholder="Line..."
             oninput="onTypingLine(this.value)"
           />
-          <div class="lines-tools">
-            <button class="move-lines" onclick="onChangeLine()">
-              move line
-            </button>
-            <button class="add-line" onclick="onAddNewLine()">+</button>
-            <button class="delete-line">X</button>
+          <div class="lines-tools flex">
+            <button
+              class="line-tools--btn move-lines"
+              onclick="onChangeLine()"
+            ></button>
+            <button
+              class="line-tools--btn add-line"
+              onclick="onAddNewLine()"
+            ></button>
+            <button
+              class="line-tools--btn delete-line"
+              onclick="onDelete()"
+            ></button>
           </div>
-          <div class="style-tools">
-            <button class="increase-size" onclick="onChangeSize(1)">+</button>
-            <button class="increase-size" onclick="onChangeSize(-1)">-</button>
-            <button class="move-up" onclick="onMoveLine(-1)">Up</button>
-            <button class="move-down" onclick="onMoveLine(1)">Down</button>
+          <div class="style-tools flex">
+            <button class="decrease-size" onclick="onChangeSize(-1)"></button>
+            <button class="increase-size" onclick="onChangeSize(1)"></button>
+            <button class="move-up" onclick="onMoveLine(-1)"></button>
+            <button class="move-down" onclick="onMoveLine(1)"></button>
           </div>
           <div class="save-download-btns flex">
-            <button class="save-btn" onclick="onSave()">Save</button>
-            <a
+            <button class="save-btn btn-sd" onclick="onSave()">Save</button>
+            <button
               href="#"
-              class="download-btn"
+              class="download-btn btn-sd"
               onclick="onDownload(this)"
               download="file-name"
             >
               Download
-            </a>
+            </button>
           </div>
         </div>
       </div>
-      <section id="memes-gallery" class="memes-gallery grid"></section>
+      <section id="memes-gallery" class="memes-gallery grid hide"></section>
     </main>
     <script src="js/storage-service.js"></script>
     <script src="js/meme-service.js"></script>

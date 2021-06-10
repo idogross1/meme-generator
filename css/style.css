@@ -7,6 +7,7 @@ body {
   margin: 0 auto;
   padding: 0;
   background-color: #310047;
+  font-family: Nato-regular;
 }
 
 body::-webkit-scrollbar {
@@ -128,7 +129,7 @@ main {
 }
 
 .images-gallery {
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 20px;
   align-items: center;
 }
@@ -139,7 +140,7 @@ main {
   max-width: 100%;
 }
 .memes-gallery {
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 20px;
   align-items: center;
 }
@@ -156,10 +157,108 @@ main {
 }
 
 .tools-container {
-  background-color: lightcyan;
+  padding-block-start: 2rem;
   height: 400px;
   width: 400px;
+  gap: 2rem;
+  box-shadow: 39px 0px 49px 38px rgba(0, 0, 0, 0.51);
 }
+
+.lines-tools {
+  gap: 1rem;
+}
+
+.lines-tools > * {
+  font-family: awesome;
+  font-size: 1.5rem;
+  height: 3rem;
+  width: 3rem;
+  cursor: pointer;
+  background-color: white;
+  border: 2px solid #9614d0;
+}
+
+.lines-tools .move-lines::before {
+  content: '\f0dc';
+}
+.lines-tools .add-line::before {
+  content: '\f067';
+}
+.lines-tools .delete-line::before {
+  content: '\f2ed';
+}
+
+.tools-container .line-input {
+  height: 2.5rem;
+  width: 80%;
+  border-radius: 10px;
+  padding-inline-start: 0.5rem;
+  background-color: white;
+  border: 2px solid #9614d0;
+}
+
+.style-tools {
+  gap: 1rem;
+}
+
+.style-tools > * {
+  font-family: awesome;
+  font-size: 1.5rem;
+  height: 3rem;
+  width: 3rem;
+  cursor: pointer;
+  background-color: white;
+  border: 2px solid #9614d0;
+}
+
+.style-tools .increase-size:before {
+  content: '\f031';
+}
+.style-tools .decrease-size:before {
+  content: '\f031';
+  font-size: 1rem;
+}
+.style-tools .move-up:before {
+  content: '\f077';
+}
+.style-tools .move-down:before {
+  content: '\f078';
+}
+
+.save-download-btns {
+  gap: 1rem;
+}
+
+.btn-sd {
+  height: 3rem;
+  width: 8rem;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.save-btn {
+  background-color: white;
+  border: 3px solid #9614d0;
+  position: relative;
+}
+
+.save-btn:after {
+  font-family: awesome;
+  content: '\f0c7';
+  position: absolute;
+  right: 20px;
+}
+
+.download-btn {
+  background-color: #9614d0;
+  text-decoration: none;
+  color: white;
+}
+
+/* #D16AFF */
+
+/* save-download-btns download-btn  save-btn btn-sd */
 
 /* Helpers */
 
@@ -252,16 +351,13 @@ main {
     display: inline;
     transition: opacity(600ms);
   }
+}
 
-  /* .navbar:hover .link-text {
-    display: inline;
-  }
-
-  .navbar:hover .logo svg {
-    margin-left: 11rem;
-  }
-
-  .navbar:hover .logo-text {
-    left: 0px;
-  } */
+@font-face {
+  font-family: Nato-regular;
+  src: url(../fonts/Noto_Sans/NotoSans-Regular.ttf);
+}
+@font-face {
+  font-family: awesome;
+  src: url(../fonts/awesome-fonts/fa-regular-400.ttf);
 }

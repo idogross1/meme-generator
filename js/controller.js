@@ -110,6 +110,7 @@ function onMemes() {
   // TODO: put memes gallery out of hide
   document.querySelector('.memes-gallery').classList.remove('hide');
   document.querySelector('.images-gallery').classList.add('hide');
+  document.querySelector('.main-content').classList.add('hide');
   renderMemesGallery();
 }
 
